@@ -174,7 +174,7 @@ def simulate_single_raindrop(initial_diameter_mm):
     if evolution_states and len(evolution_states) > 1:
         all_times = np.array([state[0] for state in evolution_states])
         effective_terminal_time = all_times[-1]
-        time_T_half = effective_terminal_time / 2.0
+        time_T_half = effective_terminal_time / 10.0
         
         valid_indices = np.where(all_times >= 0)[0] # 모든 시간은 0 이상이어야 함
         if len(valid_indices) > 0:
@@ -359,7 +359,8 @@ def plot_raindrop_shapes(results_list, target_diameters_mm=None,
             local_indent_scaling_exponent = 1.0
             local_indent_shape_exponent = 2.0
 
-            if initial_d_mm < indentation_threshold_param or time_label != "종단 (T) 시점":
+            if initial_d_mm < indentation_threshold_param or time_label == "T0 (초기) 시점":
+            # if initial_d_mm < indentation_threshold_param or time_label != "종단 (T) 시점":
                 shape_patch = patches.Ellipse(xy=(0, 0), width=d_horiz_mm, height=d_vert_mm, angle=0,
                                               facecolor='skyblue', edgecolor='blue', alpha=0.7)
                 ax_s.add_patch(shape_patch)
@@ -479,7 +480,7 @@ def main():
     빗방울 시뮬레이션을 실행하고, 그 결과를 바탕으로 정적 플롯을 생성합니다.
     """
     
-    raindrop_initial_diameters_mm = [0.5, 1.0, 2.0, 3.0, 4.0, 5.0, 5.5, 6.0] 
+    raindrop_initial_diameters_mm = [0.5, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0] 
     simulation_results = []
 
     print("빗방울 시뮬레이션을 시작합니다...")
@@ -495,7 +496,7 @@ def main():
 
     print("\n정적 플롯을 생성합니다...")
     plot_results(simulation_results)
-    plot_raindrop_shapes(simulation_results, target_diameters_mm=[0.5, 1.0, 2.0, 3.0, 4.0, 5.0, 5.5, 6.0])
+    plot_raindrop_shapes(simulation_results, target_diameters_mm=[0.5, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0])
     
     print("플롯 창을 화면에 표시합니다. 모든 창을 닫으면 프로그램이 종료됩니다.")
     plt.show() 
